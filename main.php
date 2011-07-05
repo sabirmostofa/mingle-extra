@@ -64,7 +64,7 @@ array(
 
 					
 					wp_enqueue_script('jquery');
-if(isset($_POST['new_aud'])){
+if(isset($_POST['new_aud']) || $_GET['action']=='edit'){
 wp_enqueue_script('jquery_ui_picker',plugins_url('/' , __FILE__).'js/jquery-ui-1.8.11.custom.min.js');
 
 wp_enqueue_script('custom_tiny_mce', plugins_url('/' , __FILE__).'js/tiny_mce/tiny_mce.js');

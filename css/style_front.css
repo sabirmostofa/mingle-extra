@@ -16,3 +16,36 @@ float:none;
 padding:0 !important;
 margin:0 !important;
 }
+
+.naked tr td{
+padding:0 !important;
+margin:0 !important;
+}
+.naked th{
+padding:0 !important;
+
+}
+
+
+div.updated, .login .message {
+display:block;
+background-color: lightYellow;
+border-color: #E6DB55;
+margin-bottom:5px;
+}
+
+
+div.updated, div.error {
+border-bottom-left-radius: 3px 3px;
+border-bottom-right-radius: 3px 3px;
+border-style: solid;
+border-width: 1px;
+border-top-left-radius: 3px 3px;
+border-top-right-radius: 3px 3px;
+margin: 5px 15px 2px;
+padding: 0px 0.6em;
+}
+
+body#tinymce.mceContentBody{
+font-size:14px !important;
+}
