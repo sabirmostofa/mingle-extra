@@ -1,16 +1,43 @@
 <?php
 
 
- $user_id=$mngl_user->id;
+$user_id=$mngl_user->id;
 $this_page_link = trim(get_permalink( $mngl_options->my_auditions_page_id),'/');
 
- $field_id=$wpdb->get_var($wpdb->prepare("SELECT id FROM wp_mngl_custom_fields where name='Status';"));
+$field_id=$wpdb->get_var($wpdb->prepare("SELECT id FROM wp_mngl_custom_fields where name='Status';"));
 $role=$wpdb->get_var($wpdb->prepare("SELECT value FROM wp_mngl_custom_field_values where user_id='$user_id' and field_id='$field_id';"));
 
 $role=trim($role);
 
+// If the User is an Actor or Actress
 if($role == 'Actor' || $role == 'Actress'):
 
+if(isset($_GET['action'])):
+
+switch($_GET['action']){
+	
+	case 'delete':
+	$id = $_GET['id'];
+ if($wpdb->query("delete from wp_actor_videos where id='$id'"))
+ echo '<div class="updated">Audtion Has been Deleted successfully</div>';
+	
+	break;
+	
+	}
+
+endif;
+
+$all = $wpdb->get_results("select * from wp_actor_videos where user_id='$user_id'","ARRAY_A");
+
+echo '<table class="naked">';
+foreach($all as $single):
+
+$title =  get_the_title($single['audition_id']);
+$page_lilnk = $this_page_link."/?view_video={$single['id']}";
+echo "<tr><td>{$title}</td><td><a class='vid_preview' href='{$page_lilnk}'>Video Preview</a></td><td><a href='{$this_page_link}/?action=delete&id={$single["id"]}'>Delete</a></td></tr>";
+
+endforeach;
+echo '</table>';
 
 
 endif;
