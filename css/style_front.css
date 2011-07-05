@@ -1,15 +1,18 @@
-.paginate_video{
-
-text-align:center;
-margin-bottom:10px;
-
+.mceToolbarTop * {
+float:left;
 }
 
-#areaSubmit{
-
+.mceToolbarTop select {
+width:auto!important;
 }
-#areaMessage{
-display:none;
-margin:0px 0;
 
+.mceToolbarTop option {
+float:none;
+}
+
+
+
+#aud_des_tools1 tr td{
+padding:0 !important;
+margin:0 !important;
 }

@@ -24,6 +24,8 @@ class wpMingleAudition{
 		add_action('wp_enqueue_scripts' , array($this,'front_scripts'));	
 		add_action('wp_print_styles' , array($this,'front_css'));
 		add_action('the_content',array($this,'content_generate'),101);
+		
+		add_action('init',array($this,'register_post_type'));
 			
 		add_action( 'wp_ajax_myajax-submit', array($this,'ajax_handle' ));
 		add_action( 'wp_ajax_ajax_toggle', array($this,'ajax_toggle' ));
@@ -62,6 +64,12 @@ array(
 
 					
 					wp_enqueue_script('jquery');
+if(isset($_POST['new_aud'])){
+wp_enqueue_script('jquery_ui_picker',plugins_url('/' , __FILE__).'js/jquery-ui-1.8.11.custom.min.js');
+
+wp_enqueue_script('custom_tiny_mce', plugins_url('/' , __FILE__).'js/tiny_mce/tiny_mce.js');
+	}	
+					
 				if(!(is_admin())){
 				wp_enqueue_script('add_audition_front_script',plugins_url('/' , __FILE__).'js/script_front.js');
 				
@@ -73,10 +81,9 @@ array(
 						)
 						);	
 			     }
-			     if(isset($_POST['new_aud']))
-wp_enqueue_script('jquery_ui_picker',plugins_url('/' , __FILE__).'js/jquery-ui-1.8.11.custom.min.js');
-
-			}
+	
+	
+	}
 				
 				
 				
@@ -98,6 +105,26 @@ wp_enqueue_script('jquery_ui_picker',plugins_url('/' , __FILE__).'js/jquery-ui-1
 
 
 	}
+	
+	function register_post_type(){		
+		
+		register_post_type( 'audition',
+		array(
+			'labels' => array(
+				'name' => __( 'Auditions' ),
+				'singular_name' => __( 'Audition' )
+			),
+			'public' => true,
+			'has_archive' => true,
+			'rewrite' => array('slug' => 'auditions'),
+			'supports' => array('title','editor','author','thumbnail','excerpt')
+
+		)
+	);
+		
+		
+		
+		}
 	
 	function content_generate($content){
 		global $post, $mngl_options,$mngl_user,$wpdb,$mngl_blogurl;
