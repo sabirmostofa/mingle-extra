@@ -92,7 +92,7 @@ foreach($new_query->posts as $single){
 	
 	$screenname =$mngl_user->get_stored_profile_by_id($single->post_author)->screenname;
 	
-echo "<tr><td>{$single->post_title}</td><td><a href=\"{$user_profile_page}/?u={$screenname} \">{$mngl_user->screenname}</a></td></tr>";
+echo "<tr><td>{$single->post_title}</td><td><a href=\"{$user_profile_page}/?u={$screenname} \">{$screenname }</a></td></tr>";
 }
 
 echo '</table>';

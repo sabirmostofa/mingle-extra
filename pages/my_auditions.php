@@ -2,7 +2,9 @@
 
 
 $user_id=$mngl_user->id;
+$user_profile_page=trim(get_permalink( $mngl_options->profile_page_id),'/');
 $this_page_link = trim(get_permalink( $mngl_options->my_auditions_page_id),'/');
+$inbox_page_link = trim(get_permalink( $mngl_options->inbox_page_id),'/');
 
 $field_id=$wpdb->get_var($wpdb->prepare("SELECT id FROM wp_mngl_custom_fields where name='Status';"));
 $role=$wpdb->get_var($wpdb->prepare("SELECT value FROM wp_mngl_custom_field_values where user_id='$user_id' and field_id='$field_id';"));
@@ -23,6 +25,8 @@ switch($_GET['action']){
  echo '<div class="updated">Audtion Has been Deleted successfully</div>';
 	
 	break;
+	
+
 	
 	}
 
@@ -139,6 +143,26 @@ if($role == 'Producer' || $role == 'Director'):
 			 echo '<div class="updated">Audtion Has been Deleted successfully</div>';
 			unset($_GET);
 			break;
+			
+				case 'view_aud':
+				echo '<div id="aud_video"></div>';
+	$id = $_GET['aud_id'];
+	$all = $wpdb->get_results("select * from wp_actor_videos where audition_id='$id'","ARRAY_A");
+
+	echo '<table class="naked">';
+	echo '<th>Actor</th><th>Preview</th><th>Send Message</th>';
+	
+foreach($all as $single):
+$page_lilnk = $this_page_link."/?view_video={$single['id']}";
+$screenname =$mngl_user->get_stored_profile_by_id($single['user_id'])->screenname;
+
+echo "<tr><td><a href='{$user_profile_page}/?u={$screenname}'>$screenname</a> </td><td><a class='vid_preview' href='{$page_lilnk}'>Video Preview</a></td><td><a href='{$inbox_page_link}/?u={$single['user_id']}'>Send Message</a></td></tr>";
+
+endforeach;
+echo '</table>';
+	
+	
+	break;
 		
 		
 		
@@ -194,10 +218,12 @@ $new_query=new WP_Query("post_author=$user_id&post_type=audition");
 
 echo '<table class="naked">';
 	
-foreach($new_query->posts as $single)
-echo "<tr><td>{$single->post_title}</td><td><a href='{$this_page_link}/?action=edit&id={$single->ID}'>Edit</a></td><td><a href='{$this_page_link}/?action=delete&id={$single->ID}'>Delete</a></td></tr>";
+foreach($new_query->posts as $single){
+	$id=$single->ID;
+	$total_video= $wpdb->get_var("select count(*)  from wp_actor_videos where audition_id='$id'");
+echo "<tr><td>{$single->post_title}</td><td><a href='{$this_page_link}/?action=view_aud&aud_id={$single->ID}'>{$total_video} video(s)</a></td><td><a href='{$this_page_link}/?action=edit&id={$single->ID}'>Edit</a></td><td><a href='{$this_page_link}/?action=delete&id={$single->ID}'>Delete</a></td></tr>";
 
-
+}
 echo '</table>';
 
 
