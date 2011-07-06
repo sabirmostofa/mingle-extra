@@ -30,8 +30,8 @@ class wpMingleAudition{
 		add_action( 'wp_ajax_myajax-submit', array($this,'ajax_handle' ));
 		add_action( 'wp_ajax_ajax_toggle', array($this,'ajax_toggle' ));
 		add_action( 'wp_ajax_ajax_remove', array($this,'ajax_remove' ));
-		add_action( 'wp_ajax_show_next', array($this,'ajax_next_page_show'));
-		add_action( 'wp_ajax_ajax_getId', array($this,'ajax_process_insert'));
+		add_action( 'wp_ajax_ajax_getdes', array($this,'ajax_getdes'));
+		add_action( 'wp_ajax_ajax_getvideo', array($this,'ajax_get_video'));
 		register_activation_hook(__FILE__, array($this, 'create_table'));
 		
 		}
@@ -127,7 +127,7 @@ wp_enqueue_script('custom_tiny_mce', plugins_url('/' , __FILE__).'js/tiny_mce/ti
 		}
 	
 	function content_generate($content){
-		global $post, $mngl_options,$mngl_user,$wpdb,$mngl_blogurl;
+		global $post, $mngl_options,$mngl_user,$wpdb,$mngl_blogurl,$mngl_friend;
 		if(!is_page())return $content;
 		
 		
@@ -378,7 +378,30 @@ function process_form(){
 		   
 		   
 
-       
+      //Ajax Functions
+      
+     function ajax_get_video(){
+		 global $wpdb;
+		 
+		// var_dump($_POST);
+		 $video_id=$_POST['video_id'];
+		 
+		 echo $video = $wpdb->get_var("select video from wp_actor_videos where id='$video_id'");
+
+		 exit;
+		 } 
+		 
+		 function ajax_getdes(){
+			  global $wpdb;
+		 
+		// var_dump($_POST);
+		 $video_id=$_POST['video_id'];
+
+		 echo $des = $wpdb->get_var("select post_content from wp_posts where ID='$video_id'");
+
+		 exit;
+			 
+			 }
 
    
  

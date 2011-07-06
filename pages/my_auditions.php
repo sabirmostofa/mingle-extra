@@ -11,6 +11,7 @@ $role=trim($role);
 
 // If the User is an Actor or Actress
 if($role == 'Actor' || $role == 'Actress'):
+echo '<div id="aud_video"></div>';
 
 if(isset($_GET['action'])):
 
@@ -81,6 +82,7 @@ if($role == 'Producer' || $role == 'Director'):
 
 	</form>
 	<?php
+	return;
 	
 	elseif(isset($_GET['action'])):
 	     $post_to_edit= $_GET['id'];
